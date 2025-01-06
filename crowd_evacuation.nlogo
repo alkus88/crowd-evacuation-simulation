@@ -268,52 +268,44 @@ end
 to move-normal
   ask survivors [
     let next-patch 0
-
-    ; Wybierz patch najbliższy do celu (wyjścia)
-    if goal = door 14178 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance1]
-    ]
-    if goal = door 14179 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance2]
-    ]
-    if goal = door 14180 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance3]
-    ]
-    if goal = door 14181 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance4]
-    ]
-    if goal = door 14182 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance5]
-    ]
-    if goal = door 14183 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance6]
-    ]
-    if goal = door 14184 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance7]
-    ]
-    if goal = door 14185 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance8]
-    ]
-    if goal = door 14186 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance9]
-    ]
-    if goal = door 14187 [
-      set next-patch min-one-of neighbors with [pcolor != black] [distance10]
-    ]
-
-    ; Ruch w kierunku wybranego patcha
+    ifelse goal = door 14178 [set next-patch min-one-of neighbors [distance1]] [
+      ifelse goal = door 14179 [set next-patch min-one-of neighbors [distance2]] [
+        ifelse goal = door 14180 [set next-patch min-one-of neighbors [distance3]] [
+          ifelse goal = door 14181 [set next-patch min-one-of neighbors [distance4]] [
+            ifelse goal = door 14182 [set next-patch min-one-of neighbors [distance5]] [
+              ifelse goal = door 14183 [set next-patch min-one-of neighbors [distance6]] [
+                ifelse goal = door 14184 [set next-patch min-one-of neighbors [distance7]] [
+                  ifelse goal = door 14185 [set next-patch min-one-of neighbors [distance8]] [
+                    ifelse goal = door 14186 [set next-patch min-one-of neighbors [distance9]] [
+                      ifelse goal = door 14187 [set next-patch min-one-of neighbors [distance10]] []]]]]]]]]]
     repeat speed [
-      ; Jeśli patch jest niedostępny, poszukaj innego
-      while [next-patch != 0 and [pcolor] of next-patch != grey] [
-        set next-patch min-one-of neighbors with [pcolor != black] [distance myself]
+      while [ [pcolor] of next-patch != grey] [
+        ask next-patch [
+          set distance1 10000000
+          set distance2 10000000
+          set distance3 10000000
+          set distance4 10000000
+          set distance5 10000000
+          set distance6 10000000
+          set distance7 10000000
+          set distance8 10000000
+          set distance9 10000000
+          set distance10 10000000
+        ]
+        ifelse goal = door 14178 [set next-patch min-one-of neighbors [distance1]] [
+          ifelse goal = door 14179 [set next-patch min-one-of neighbors [distance2]] [
+            ifelse goal = door 14180 [set next-patch min-one-of neighbors [distance3]] [
+              ifelse goal = door 14181 [set next-patch min-one-of neighbors [distance4]] [
+                ifelse goal = door 14182 [set next-patch min-one-of neighbors [distance5]] [
+                  ifelse goal = door 14183 [set next-patch min-one-of neighbors [distance6]] [
+                    ifelse goal = door 14184 [set next-patch min-one-of neighbors [distance7]] [
+                      ifelse goal = door 14185 [set next-patch min-one-of neighbors [distance8]] [
+                        ifelse goal = door 14186 [set next-patch min-one-of neighbors [distance9]] [
+                          ifelse goal = door 14187 [set next-patch min-one-of neighbors [distance10]] []]]]]]]]]]
       ]
 
-      ; Jeśli patch jest dostępny, przesuń się
-      if next-patch != 0 and not patch-overcrowded? next-patch [
-        move-to next-patch
-      ]
+      if not patch-overcrowded? next-patch [ move-to next-patch ]
     ]
-
     ; Jeśli agent dotarł do wyjścia
     if any? doors-here [
       register-escape
